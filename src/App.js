@@ -1,15 +1,19 @@
 import './App.css'
+import React from 'react'
 
-function App () {
+function App() {
+  const handleClick = () => {
+    console.log("Hello, world!!!")
+
+  }
   return (
     <div>
-      <Button />
+      <button onClick={handleClick}>
+     牡丹
+    </button>
     </div>
   )
 }
 
-function Button () {
-  return <span>aaa</span>
-}
 
-export default App
+export default App;
