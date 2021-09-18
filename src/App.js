@@ -1,9 +1,10 @@
 import './App.css'
-import React from 'react'
-import { useAlert ,useState } from 'react'
+import React, { useAlert, useState } from 'react'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [text, setText] = useState("")
+  const [message,setMessage]=useState("")
   const handleClick = () => {
     console.log("Hello, world!!!")
     const alert = useAlert
@@ -19,17 +20,34 @@ function App() {
 
      const reset = () => {
       setCount(0);
-    };
-
-    return(
+     };
+  const textoutput = () => {
+    setText(text);
+    setMessage(message);
+  }
+    
+console.log(text)
+  return (
     <div>
-    <button onClick={handleClick}>牡丹</button>
-    <button onClick={() => { alert("Hello, world!!!") }}>アラート</button>
-    <button onClick={increment}>いいね</button>
-    <button onClick={decrement}>よくないね</button>
-    <button onClick={reset}>リセット</button>
+      <button onClick={handleClick}>牡丹</button>
+      <button onClick={() => { alert("Hello, world!!!") }}>アラート</button>
+      <button onClick={increment}>いいね</button>
+      <button onClick={decrement}>よくないね</button>
+      <button onClick={reset}>リセット</button>
+      {count}
+      <br/>
+      {/* <input value={this.state.name} type="text" onChange={this.handleClick} />  */}
+      <input
+        type="text"
+        onChange={e=>setText(e.target.value)}
+      />
+      <button onClick={textoutput}>
+        牡丹
+      </button>
+      {message}
+    
     </div>
-  )
+  );
 };
 
 export default App;
