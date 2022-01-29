@@ -137,15 +137,25 @@ function App() {
       <p>あなたの手: {myhand}</p>
       <p>cpuの手: {cpuhand}</p>
       <p>優勝劣敗: {winlose}</p>
-      
-      {quiita && quiita.map((q, index) => {
+
+    {quiita && quiita.map((q, index) => {
+          return (
+            <div key={index}>
+             <Link to={q.title}>{q.title}</Link>
+            </div>
+          )
+        })
+      }
+
+        {/* {quiita && quiita.map((q, index) => {
           return (
             <div key={index}>
               <h3>{q.title}</h3>
             </div>
           )
         })
-      }
+      } */}
+
       <Link to={"/page2"}>~２ページ目へ~</Link>
     </>
   );
