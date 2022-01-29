@@ -1,5 +1,7 @@
 import './App.css'
-import React, { useAlert, useState } from 'react'
+import React, { useAlert, useState, useEffect } from 'react'
+import axios from 'axios'
+import { Link } from 'react-router-dom';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -9,6 +11,23 @@ function App() {
   const [myhand, setMyhand] = useState("")
   const [cpuhand, setCpuhand] = useState("")
   const [winlose, setWinlose] = useState("")
+  const [number, setNumber] = useState(0);
+  const [quiita, setQuiita] = useState("")
+
+  useEffect(() => { 
+      fetchQiitaData()
+  }, [])
+
+  const fetchQiitaData = async () => {
+    const res = await axios.get('https://qiita.com/api/v2/items')
+    setQuiita(res.data)
+  }
+
+  useEffect(() => {
+    console.log('in useEffect myhand', myhand)
+    console.log('in useEffect cpuhand', cpuhand)
+    decideWinLose(myhand, cpuhand)
+  }, [number]);
 
   const handleClick = () => {
     console.log("Hello, world!!!")
@@ -39,21 +58,26 @@ function App() {
 
   const guu = () => {
     decideCpuHand()
+    decideWinLose()
     console.log("guu")
     setMyhand("ぐー");
-
+    setNumber(prev => prev + 1)
   };
   
   const choki = () => {
     decideCpuHand()
+    decideWinLose()
     console.log("choki")
     setMyhand("ちょき");
+    setNumber(prev => prev + 1)
   };
   
   const paa = () => {
     decideCpuHand()
+    decideWinLose()
     console.log("paa")
     setMyhand("ぱー");
+    setNumber(prev => prev + 1)
   };
 
   const decideCpuHand = () => {
@@ -70,39 +94,60 @@ function App() {
     }
   }
 
-    const decideWinlose = () => {
-
-  };
-
-console.log(cpuhand,'cpuhand')
+  const decideWinLose = (myhand, cpuhand) => {
+      if (myhand === "" && cpuhand === "") {
+      }else if (myhand === cpuhand) {
+        setWinlose("~引き分け~")
+      }else　if (cpuhand === "ちょき" && myhand === "ぐー") { 
+　　　   setWinlose("~勝ち!!~")
+      } else if (cpuhand === "ぐー" && myhand === "ぱー") {
+        setWinlose("~勝ち!!~")
+      } else if (cpuhand === "ぱー" && myhand === "ちょき") {
+        setWinlose("~勝ち!!~")
+      } else {
+        setWinlose("~負け...~")
+      }
+};
+  
+  console.log(quiita, 'quiita chck')
+  console.log(quiita.length, 'quiita chck')
   
   return (
-    <div>
+    <>
       <button onClick={handleClick}>牡丹</button>
       <button onClick={() => { alert("Hello, world!!!") }}>アラート</button>
+      <br/>
+      <h3>いいねよくないねボタン </h3>
       <button onClick={increment}>いいね</button>
       <button onClick={decrement}>よくないね</button>
       <button onClick={reset}>リセット</button>
       {count}
-      <br />
-      <input
-        type="text"
-        onChange={e=>setText(e.target.value)}
-      />
+      <br/>
+      <input type="text"
+        onChange={e=>setText(e.target.value)}/>
       <button onClick={textoutput}>
         牡丹
       </button>
-        <div style={{color: "blue"}}>{error}</div>
+      <div style={{ color: "blue" }}>{error}</div>
       {message}
-      
+      <h3>じゃんけん</h3>
       <button onClick={guu}>ぐー</button>
       <button onClick={choki}>ちょき</button>
       <button onClick={paa}>ぱー</button>
       <p>あなたの手: {myhand}</p>
       <p>cpuの手: {cpuhand}</p>
-    　<p>勝敗: {winlose}</p>
-    </div>
+      <p>優勝劣敗: {winlose}</p>
+      
+      {quiita && quiita.map((q, index) => {
+          return (
+            <div key={index}>
+              <h3>{q.title}</h3>
+            </div>
+          )
+        })
+      }
+      <Link to={"/page2"}>~２ページ目へ~</Link>
+    </>
   );
 };
-
 export default App;
