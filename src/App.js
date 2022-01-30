@@ -2,6 +2,8 @@ import './App.css'
 import React, { useAlert, useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Table } from 'react-bootstrap'
 
 function App() {
   const [count, setCount] = useState(0);
@@ -138,19 +140,32 @@ function App() {
       <p>cpuの手: {cpuhand}</p>
       <p>優勝劣敗: {winlose}</p>
 
-    {quiita && quiita.map((q, index) => {
-          return (
-            <div key={index}>
-             <Link to={q.title}>{q.title}</Link>
-            </div>
-          )
-        })
-      }
+<Table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>たいとる</th>
+    </tr>
+  </thead>
+   <tbody>
+     
+        <tr>
+            <td>1</td>
+      {quiita && quiita.map((q, index) => {
+        return (
+            <td key={index}>
+                <a href={q.url}>{q.title}</a>
+          </td>
+           )})}
+        </tr>
+       
+        </tbody>
+</Table>
 
-        {/* {quiita && quiita.map((q, index) => {
+      {/* {quiita && quiita.map((q, index) => {
           return (
             <div key={index}>
-              <h3>{q.title}</h3>
+             <a href={q.url}>{q.title}</a>
             </div>
           )
         })
